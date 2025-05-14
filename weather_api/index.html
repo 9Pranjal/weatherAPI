@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecasting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<style>
+    body{
+        background-color: #a6dbff;
+    }
+    .weather-box{
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        height: 600px;
+        width: 450px;
+background: linear-gradient(131deg,rgba(67, 67, 171, 1) 0%, rgba(0, 212, 255, 1) 100%);        border-radius: 30px;
+        margin-top: 100px;
+        color: rgb(255, 255, 255);
+        text-align: center;
+    }
+    .search-wrapper {
+        margin-top: 20px;
+    }
+    .search-wrapper input {
+        border: none;
+        padding: 10px 12px;
+        border-radius: 10px;
+        width: 250px;
+        outline: none;
+        font-weight: bold;
+        color: #0096c7;
+        font-size: 16px;
+    }
+    .search-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-left: -35px;
+        color: #0096c7;
+        font-size: 18px;
+    }
+    .weather img{
+        height: 120px; 
+    }
+    .weather h1{
+        font-size: 45px;
+        margin: 10px;
+    }
+    .weather h2{
+        font-size: 40px;
+        margin: 10px 0;
+    }
+    .other-details{
+        margin-top:30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .humidity{
+        margin: 10px 0 15px 0;
+    }
+    .humidity-data , .wind-data{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-size: 20px;
+    }
+    .humidity i , .wind i{
+        font-size: 40px;
+        margin: 10px;
+    }
+</style>
+<body>
+    
+    <div class="container">
+        <div class="weather-box">
+           <div class="cityW">
+                <h2 style="margin: 50px 0 0 0 ;">Choose City</h2>
+                <div class="search-wrapper">
+                    <input type="text" placeholder="Enter city" id="cityInput">
+                    <button class="search-btn" onclick="return getWeather()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+           </div>
+           <div class="weather">
+                <img src="./images/temp.png" alt="">
+                <h1 class="temperature" id="temperature">33°C</h1>
+                <h2 class="city" id="city">Surat</h2>
+                <div class="other-details">
+                    <div class="humidity">
+                        <i class="fa-solid fa-water"></i>
+                        <div class="humidity-data">
+                            <h3 style="margin: 0 10px 0 0; ">Humidity : </h3>
+                            <h3 style="margin: 0 10px 0 0; " id="humidity-value">55%</h3>
+                        </div>
+                    </div>
+                    <div class="wind">
+                        <i class="fa-solid fa-wind"></i>
+                        <div class="wind-data">
+                            <h3 style="margin: 0 10px 0 0; ">Wind :</h3>
+                            <h3 style="margin: 0 10px 0 0; " id="wind-value">19 km/h</h3>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+       function getWeather() {
+    const city = document.getElementById('cityInput').value || 'Surat'; 
+    const apiKey = "baa084d7048071565425bfc41c6f0b22"; 
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    $.ajax({
+      url: url,
+      method: 'GET',
+      success: function(data) {
+        document.getElementById('temperature').innerHTML = `${data.main.temp.toFixed(1)}°C`;
+        document.getElementById('city').innerHTML = data.name;
+        document.getElementById('humidity-value').innerHTML = `${data.main.humidity}%`;
+        document.getElementById('wind-value').innerHTML = `${data.wind.speed.toFixed(1)} km/h`;
+      },
+      error: function() {
+        alert("City not found. Please enter a valid city name.");
+      }
+    });
+  }
+
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    getWeather(); 
+  });
+    </script>
+</body>
+</html>
